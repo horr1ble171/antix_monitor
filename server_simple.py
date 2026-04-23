@@ -6,7 +6,6 @@ import subprocess
 from datetime import datetime
 
 def get_stats():
-    # Simple version compatible with AntiX/Linux
     try:
         cpu = os.popen("top -bn1 | grep 'Cpu(s)' | awk '{print $2}' | cut -d'%' -f1").read().strip()
         ram = os.popen("free -h | grep Mem | awk '{print $3\"/\"$2}'").read().strip()
@@ -16,11 +15,23 @@ def get_stats():
         
         return {
             'time': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-            'cpu': cpu if cpu else '0',
-            'ram': ram,
-            'disk': disk,
+            'cpu_percent': cpu if cpu else '0',
+            'ram_used': ram.split('/')[0] if '/' in ram else ram,
+            'ram_total': ram.split('/')[1] if '/' in ram else '',
+            'disk_used': disk.split('/')[0] if '/' in disk else disk,
+            'disk_total': disk.split('/')[1] if '/' in disk else '',
+            'disk_percent': 0,
             'uptime': uptime,
-            'ip': ip
+            'ip': ip,
+            'processes': 0,
+            'cpu_freq': 'N/A',
+            'cpu_cores': os.cpu_count() or 1,
+            'load_1m': 0,
+            'load_5m': 0,
+            'load_15m': 0,
+            'net_sent': '-',
+            'net_recv': '-',
+            'temperature': 'N/A'
         }
     except Exception as e:
         return {'error': str(e)}
