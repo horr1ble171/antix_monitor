@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AntiX Monitor</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .subtitle { text-align: center; color: #a0a0c0; margin-bottom: 30px; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: rgba(15, 25, 35, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s;
+        }
+        .card:hover { transform: translateY(-5px); }
+        .card h2 {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+            padding-left: 12px;
+        }
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .stat-label { color: #a0a0c0; }
+        .stat-value { font-weight: bold; }
+        .progress-bar {
+            background: #2a2a3e;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+        .progress-fill {
+            height: 8px;
+            border-radius: 10px;
+            transition: width 0.5s;
+        }
+        .fill-green { background: linear-gradient(90deg, #00b09b, #96c93d); }
+        .fill-yellow { background: linear-gradient(90deg, #f2994a, #f2c94c); }
+        .fill-red { background: linear-gradient(90deg, #ff416c, #ff4b2b); }
+        .ip-item {
+            background: rgba(0,0,0,0.3);
+            padding: 5px 10px;
+            border-radius: 8px;
+            margin: 5px 0;
+            font-family: monospace;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        .badge-cpu { background: #3b82f6; }
+        .badge-ram { background: #8b5cf6; }
+        .process-table {
+            width: 100%;
+            font-size: 12px;
+        }
+        .process-table th, .process-table td {
+            padding: 8px 4px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .process-table th { color: #667eea; }
+        .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #666; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .loading { animation: pulse 1s infinite; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🖥️ AntiX Server Monitor</h1>
+    <div class="subtitle" id="subtitle">Загрузка...</div>
+
+    <div class="grid">
+        <div class="card">
+            <h2>⚡ Процессор</h2>
+            <div class="stat-row"><span class="stat-label">Загрузка</span><span class="stat-value" id="cpu">-</span></div>
+            <div class="progress-bar"><div class="progress-fill" id="cpuFill" style="width:0%"></div></div>
+            <div class="stat-row"><span class="stat-label">Частота</span><span class="stat-value" id="cpuFreq">-</span></div>
+            <div class="stat-row"><span class="stat-label">Ядра</span><span class="stat-value" id="cpuCores">-</span></div>
+            <div class="stat-row"><span class="stat-label">Load Avg</span><span class="stat-value" id="loadAvg">-</span></div>
+        </div>
+
+        <div class="card">
+            <h2>🧠 Память</h2>
+            <div class="stat-row"><span class="stat-label">Использовано</span><span class="stat-value" id="ramUsed">-</span></div>
+            <div class="progress-bar"><div class="progress-fill" id="ramFill" style="width:0%"></div></div>
+            <div class="stat-row"><span class="stat-label">Всего</span><span class="stat-value" id="ramTotal">-</span></div>
+            <div class="stat-row"><span class="stat-label">Свободно</span><span class="stat-value" id="ramFree">-</span></div>
+        </div>
+
+        <div class="card">
+            <h2>💾 Диск</h2>
+            <div class="stat-row"><span class="stat-label">Использовано</span><span class="stat-value" id="diskUsed">-</span></div>
+            <div class="progress-bar"><div class="progress-fill" id="diskFill" style="width:0%"></div></div>
+            <div class="stat-row"><span class="stat-label">Всего</span><span class="stat-value" id="diskTotal">-</span></div>
+            <div class="stat-row"><span class="stat-label">Свободно</span><span class="stat-value" id="diskFree">-</span></div>
+        </div>
+
+        <div class="card">
+            <h2>🌐 Сеть</h2>
+            <div class="stat-row"><span class="stat-label">Отправлено</span><span class="stat-value" id="netSent">-</span></div>
+            <div class="stat-row"><span class="stat-label">Получено</span><span class="stat-value" id="netRecv">-</span></div>
+            <div class="stat-row"><span class="stat-label">IP адреса</span></div>
+            <div id="ipsList"></div>
+        </div>
+
+        <div class="card">
+            <h2>ℹ️ Система</h2>
+            <div class="stat-row"><span class="stat-label">Время</span><span class="stat-value" id="time">-</span></div>
+            <div class="stat-row"><span class="stat-label">Аптайм</span><span class="stat-value" id="uptime">-</span></div>
+            <div class="stat-row"><span class="stat-label">Температура</span><span class="stat-value" id="temp">-</span></div>
+            <div class="stat-row"><span class="stat-label">Процессов</span><span class="stat-value" id="processes">-</span></div>
+        </div>
+
+        <div class="card">
+            <h2>📊 Топ процессов</h2>
+            <table class="process-table" id="procTable">
+                <thead><tr><th>PID</th><th>Название</th><th>CPU</th><th>RAM</th></tr></thead>
+                <tbody><tr><td colspan="4" class="loading">Загрузка...</td></tr></tbody>
+            </table>
+        </div>
+    </div>
+    <div class="footer">Обновляется каждые 3 секунды | Backend: Python на AntiX</div>
+</div>
+
+<script>
+    const API_URL = '/api/stats';
+    const PROCS_URL = '/api/processes';
+
+    async function fetchStats() {
+        try {
+            const res = await fetch(API_URL);
+            const d = await res.json();
+            document.getElementById('subtitle').innerHTML = `🟢 Сервер работает | ${d.time}`;
+            document.getElementById('time').innerHTML = d.time;
+            document.getElementById('uptime').innerHTML = d.uptime;
+            document.getElementById('temp').innerHTML = d.temperature || 'N/A';
+            document.getElementById('processes').innerHTML = d.processes;
+            document.getElementById('cpu').innerHTML = (d.cpu_percent || d.cpu) + '%';
+            document.getElementById('cpuFreq').innerHTML = d.cpu_freq || '-';
+            document.getElementById('cpuCores').innerHTML = d.cpu_cores || '-';
+            document.getElementById('loadAvg').innerHTML = d.load_1m ? `${d.load_1m} / ${d.load_5m} / ${d.load_15m}` : '-';
+            document.getElementById('ramUsed').innerHTML = d.ram_used || d.ram;
+            document.getElementById('ramTotal').innerHTML = d.ram_total || '';
+            document.getElementById('ramFree').innerHTML = d.ram_free || '';
+            document.getElementById('diskUsed').innerHTML = d.disk_used || d.disk;
+            document.getElementById('diskTotal').innerHTML = d.disk_total || '';
+            document.getElementById('diskFree').innerHTML = d.disk_free || '';
+            document.getElementById('netSent').innerHTML = d.net_sent || '-';
+            document.getElementById('netRecv').innerHTML = d.net_recv || '-';
+
+            let ipsHtml = '';
+            if (d.ips) {
+                d.ips.forEach(ip => { ipsHtml += `<div class="ip-item">${ip.interface}: ${ip.ip}</div>`; });
+            } else if (d.ip) {
+                ipsHtml = `<div class="ip-item">${d.ip}</div>`;
+            }
+            document.getElementById('ipsList').innerHTML = ipsHtml || '<div class="ip-item">Нет данных</div>';
+
+            const cpu = parseFloat(d.cpu_percent || d.cpu);
+            let ramPercent = 0;
+            if (d.ram_used && d.ram_total) {
+                ramPercent = (parseFloat(d.ram_used) / parseFloat(d.ram_total)) * 100;
+            }
+            const diskPercent = d.disk_percent || 0;
+
+            document.getElementById('cpuFill').style.width = cpu + '%';
+            document.getElementById('cpuFill').className = 'progress-fill ' + (cpu > 70 ? 'fill-red' : cpu > 30 ? 'fill-yellow' : 'fill-green');
+            document.getElementById('ramFill').style.width = ramPercent + '%';
+            document.getElementById('ramFill').className = 'progress-fill ' + (ramPercent > 80 ? 'fill-red' : ramPercent > 50 ? 'fill-yellow' : 'fill-green');
+            document.getElementById('diskFill').style.width = diskPercent + '%';
+            document.getElementById('diskFill').className = 'progress-fill ' + (diskPercent > 80 ? 'fill-red' : diskPercent > 50 ? 'fill-yellow' : 'fill-green');
+        } catch(e) { console.error(e); }
+    }
+
+    async function fetchProcesses() {
+        try {
+            const res = await fetch(PROCS_URL);
+            if (!res.ok) return;
+            const procs = await res.json();
+            let html = '';
+            procs.forEach(p => {
+                html += `<tr><td>${p.pid}</td><td>${(p.name || '').substring(0, 25)}</td>
+                        <td><span class="badge badge-cpu">${p.cpu_percent || 0}%</span></td>
+                        <td><span class="badge badge-ram">${(p.memory_percent || 0).toFixed(1)}%</span></td></tr>`;
+            });
+            document.querySelector('#procTable tbody').innerHTML = html;
+        } catch(e) { console.error(e); }
+    }
+
+    fetchStats(); fetchProcesses();
+    setInterval(fetchStats, 3000);
+    setInterval(fetchProcesses, 10000);
+</script>
+</body>
+</html>
