@@ -54,6 +54,9 @@ def get_stats():
         cpu = os.popen("top -bn1 | grep 'Cpu(s)' | awk '{print $2}' | cut -d'%' -f1").read().strip()
         # Get RAM: used/total/free
         ram = os.popen("free -h | grep Mem | awk '{print $3\"/\"$2\"/\"$4}'").read().strip()
+        # Get RAM percentage separately
+        ram_pct = os.popen("free | grep Mem | awk '{print $3/$2 * 100.0}'").read().strip()
+        
         # Get Disk: used/total/free
         disk = os.popen("df -h / | tail -1 | awk '{print $3\"/\"$2\"/\"$4}'").read().strip()
         uptime = os.popen("uptime -p").read().strip()
@@ -72,6 +75,7 @@ def get_stats():
             'ram_used': ram.split('/')[0] if '/' in ram else ram,
             'ram_total': ram.split('/')[1] if '/' in ram else '',
             'ram_free': ram.split('/')[2] if len(ram.split('/')) > 2 else '',
+            'ram_percent': ram_pct if ram_pct else '0',
             'disk_used': disk.split('/')[0] if '/' in disk else disk,
             'disk_total': disk.split('/')[1] if '/' in disk else '',
             'disk_free': disk.split('/')[2] if len(disk.split('/')) > 2 else '',
