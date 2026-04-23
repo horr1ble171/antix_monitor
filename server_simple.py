@@ -13,6 +13,12 @@ def get_stats():
         uptime = os.popen("uptime -p").read().strip()
         ip = os.popen("hostname -I").read().strip()
         
+        # Calculate disk percent for progress bar
+        disk_pct = 0
+        try:
+            disk_pct = int(os.popen("df / | tail -1 | awk '{print $5}' | sed 's/%//'").read().strip())
+        except: pass
+
         return {
             'time': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
             'cpu_percent': cpu if cpu else '0',
@@ -20,15 +26,15 @@ def get_stats():
             'ram_total': ram.split('/')[1] if '/' in ram else '',
             'disk_used': disk.split('/')[0] if '/' in disk else disk,
             'disk_total': disk.split('/')[1] if '/' in disk else '',
-            'disk_percent': 0,
+            'disk_percent': disk_pct,
             'uptime': uptime,
             'ip': ip,
-            'processes': 0,
+            'processes': os.popen("ps ax | wc -l").read().strip(),
             'cpu_freq': 'N/A',
             'cpu_cores': os.cpu_count() or 1,
-            'load_1m': 0,
-            'load_5m': 0,
-            'load_15m': 0,
+            'load_1m': os.getloadavg()[0] if hasattr(os, 'getloadavg') else 0,
+            'load_5m': os.getloadavg()[1] if hasattr(os, 'getloadavg') else 0,
+            'load_15m': os.getloadavg()[2] if hasattr(os, 'getloadavg') else 0,
             'net_sent': '-',
             'net_recv': '-',
             'temperature': 'N/A'
@@ -56,11 +62,22 @@ class Handler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(json.dumps(get_stats()).encode('utf-8'))
         elif self.path == '/api/processes':
-            # Stub for processes
+            ps = os.popen("ps aux --sort=-%cpu | head -6 | tail -5").read()
+            procs = []
+            for line in ps.strip().split('\n'):
+                if line:
+                    parts = line.split()
+                    if len(parts) > 10:
+                        procs.append({
+                            'pid': parts[1],
+                            'name': ' '.join(parts[10:]),
+                            'cpu_percent': parts[2],
+                            'memory_percent': float(parts[3]) if parts[3].replace('.','',1).isdigit() else 0
+                        })
             self.send_response(200)
             self.send_header('Content-type', 'application/json')
             self.end_headers()
-            self.wfile.write(json.dumps([]).encode('utf-8'))
+            self.wfile.write(json.dumps(procs).encode('utf-8'))
         else:
             self.send_response(404)
             self.end_headers()
