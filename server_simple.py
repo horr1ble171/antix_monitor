@@ -4,6 +4,7 @@ import json
 import os
 import subprocess
 from datetime import datetime
+import mimetypes
 
 def get_cpu_freq():
     try:
@@ -95,27 +96,23 @@ def get_stats():
     except Exception as e:
         return {'error': str(e)}
 
-# Load index.html once at startup
-try:
-    with open('index.html', 'r', encoding='utf-8') as f:
-        HTML_CONTENT = f.read()
-except FileNotFoundError:
-    HTML_CONTENT = '<h1>index.html not found</h1>'
-
 class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == '/':
             self.send_response(200)
             self.send_header('Content-type', 'text/html; charset=utf-8')
             self.end_headers()
-            self.wfile.write(HTML_CONTENT.encode('utf-8'))
+            try:
+                with open('index.html', 'rb') as f:
+                    self.wfile.write(f.read())
+            except FileNotFoundError:
+                self.wfile.write(b'<h1>index.html not found</h1>')
         elif self.path == '/api/stats':
             self.send_response(200)
             self.send_header('Content-type', 'application/json')
             self.end_headers()
             self.wfile.write(json.dumps(get_stats()).encode('utf-8'))
         elif self.path == '/api/processes':
-            # Fix: exclude ps aux itself
             ps = os.popen("ps aux --sort=-%cpu | grep -v 'ps aux' | head -6 | tail -5").read()
             procs = []
             for line in ps.strip().split('\n'):
@@ -133,8 +130,35 @@ class Handler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(json.dumps(procs).encode('utf-8'))
         else:
-            self.send_response(404)
-            self.end_headers()
+            # Serve files from the 'favicon' folder
+            # If path starts with /favicon/, remove it and look in the folder
+            # Also handle root requests for common files
+            filename = self.path.lstrip('/')
+            
+            # Check if it's a favicon related file
+            possible_files = [
+                'favicon.ico', 'favicon.svg', 'site.webmanifest', 
+                'favicon-96x96.png', 'apple-touch-icon.png',
+                'web-app-manifest-192x192.png', 'web-app-manifest-512x512.png'
+            ]
+            
+            target_file = None
+            if filename in possible_files:
+                target_file = os.path.join('favicon', filename)
+            elif filename.startswith('favicon/'):
+                target_file = filename
+
+            if target_file and os.path.exists(target_file):
+                self.send_response(200)
+                content_type, _ = mimetypes.guess_type(target_file)
+                if content_type:
+                    self.send_header('Content-type', content_type)
+                self.end_headers()
+                with open(target_file, 'rb') as f:
+                    self.wfile.write(f.read())
+            else:
+                self.send_response(404)
+                self.end_headers()
 
 if __name__ == '__main__':
     port = 8080
