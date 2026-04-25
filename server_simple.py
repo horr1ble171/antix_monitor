@@ -5,6 +5,7 @@ import os
 import subprocess
 from datetime import datetime
 import mimetypes
+from urllib.parse import urlparse
 
 def get_cpu_freq():
     try:
@@ -98,7 +99,11 @@ def get_stats():
 
 class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
-        if self.path == '/':
+        # Parse path to ignore query parameters like ?v=1
+        parsed_path = urlparse(self.path)
+        clean_path = parsed_path.path
+
+        if clean_path == '/':
             self.send_response(200)
             self.send_header('Content-type', 'text/html; charset=utf-8')
             self.end_headers()
@@ -107,12 +112,12 @@ class Handler(BaseHTTPRequestHandler):
                     self.wfile.write(f.read())
             except FileNotFoundError:
                 self.wfile.write(b'<h1>index.html not found</h1>')
-        elif self.path == '/api/stats':
+        elif clean_path == '/api/stats':
             self.send_response(200)
             self.send_header('Content-type', 'application/json')
             self.end_headers()
             self.wfile.write(json.dumps(get_stats()).encode('utf-8'))
-        elif self.path == '/api/processes':
+        elif clean_path == '/api/processes':
             ps = os.popen("ps aux --sort=-%cpu | grep -v 'ps aux' | head -6 | tail -5").read()
             procs = []
             for line in ps.strip().split('\n'):
@@ -131,9 +136,7 @@ class Handler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(procs).encode('utf-8'))
         else:
             # Serve files from the 'favicon' folder
-            # If path starts with /favicon/, remove it and look in the folder
-            # Also handle root requests for common files
-            filename = self.path.lstrip('/')
+            filename = clean_path.lstrip('/')
             
             # Check if it's a favicon related file
             possible_files = [
