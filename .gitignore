@@ -13,3 +13,6 @@ ENV/
 # System files
 .DS_Store
 Thumbs.db
+
+# Other
+push_server.txt
