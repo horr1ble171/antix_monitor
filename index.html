@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -14,16 +15,18 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@500&display=swap"
+        rel="stylesheet">
     <style>
         :root {
-            --bg-color: #030712;
+            --bg-color: #24242f;
             --card-bg: rgba(255, 255, 255, 0.03);
-            --card-border: rgba(255, 255, 255, 0.08);
-            --accent-primary: #3b82f6;
-            --accent-secondary: #0ea5e9;
-            --accent-glow: rgba(59, 130, 246, 0.2);
-            --text-main: #f8fafc;
+            --card-border: rgba(255, 255, 255, 0.04);
+            --accent-primary: #8b8ba9;
+            --accent-secondary: #cbd5e1;
+            --accent-glow: rgba(139, 139, 169, 0.2);
+            --text-main: #f1f5f9;
             --text-muted: #94a3b8;
             --success: #10b981;
             --warning: #f59e0b;
@@ -31,24 +34,27 @@
             --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-color);
-            background-image: 
-                radial-gradient(circle at 10% 10%, rgba(59, 130, 246, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 90% 90%, rgba(14, 165, 233, 0.1) 0%, transparent 40%),
-                radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 1) 0%, transparent 100%);
-            background-attachment: fixed;
             min-height: 100vh;
             padding: 24px;
             color: var(--text-main);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
-        .container { max-width: 1280px; margin: 0 auto; }
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
 
         header {
             text-align: left;
@@ -57,18 +63,19 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            border-bottom: 1px solid var(--card-border);
+            border-bottom: none;
         }
 
         .header-title-group h1 {
             font-size: 2.75rem;
             font-weight: 800;
             letter-spacing: -0.05em;
-            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            background: linear-gradient(to bottom, #ffffff 0%, #cbd5e1 50%, #8b8ba9 100%);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 8px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
         }
 
         .subtitle {
@@ -84,13 +91,15 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            background: rgba(16, 185, 129, 0.08);
+            background: rgba(16, 185, 129, 0.1);
             color: var(--success);
             padding: 6px 14px;
             border-radius: 100px;
             font-size: 0.85rem;
-            border: 1px solid rgba(16, 185, 129, 0.15);
-            backdrop-filter: blur(4px);
+            font-weight: 800;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            color: #ffffff;
         }
 
         .status-dot {
@@ -103,8 +112,17 @@
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: .5; transform: scale(1.1); }
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: .5;
+                transform: scale(1.1);
+            }
         }
 
         .grid {
@@ -114,15 +132,17 @@
         }
 
         .card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(30, 30, 39, 0.7);
             border-radius: 28px;
             padding: 32px;
-            border: 1px solid var(--card-border);
-            box-shadow: var(--glass-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background-clip: padding-box;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
             position: relative;
             overflow: hidden;
+            transform: translateZ(0);
+            -webkit-font-smoothing: subpixel-antialiased;
+            backface-visibility: hidden;
         }
 
 
@@ -140,15 +160,16 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(14, 165, 233, 0.1));
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(148, 163, 184, 0.1));
             border-radius: 16px;
-            color: var(--accent-primary);
-            border: 1px solid rgba(59, 130, 246, 0.2);
+            color: var(--accent-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05);
         }
 
-        .card h2 { 
-            font-size: 1.35rem; 
-            font-weight: 700; 
+        .card h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
             letter-spacing: -0.02em;
             color: var(--text-main);
         }
@@ -161,17 +182,28 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.04);
         }
 
-        .stat-row:last-child { border-bottom: none; }
-        .stat-label { color: var(--text-muted); font-size: 0.95rem; font-weight: 500; }
-        .stat-value { 
-            font-weight: 600; 
-            font-family: 'JetBrains Mono', monospace; 
-            font-size: 1rem; 
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
             text-align: right;
             color: #fff;
         }
 
-        .progress-container { margin: 20px 0 12px 0; }
+        .progress-container {
+            margin: 20px 0 12px 0;
+        }
+
         .progress-info {
             display: flex;
             justify-content: space-between;
@@ -184,51 +216,123 @@
         }
 
         .progress-bar {
-            background: rgba(255, 255, 255, 0.04);
-            border-radius: 100px; 
-            height: 10px; 
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 100px;
+            height: 10px;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         .progress-fill {
-            height: 100%; width: 0%;
+            height: 100%;
+            width: 0%;
             transition: width 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-            background: linear-gradient(90deg, #3b82f6, #60a5fa);
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+            background: linear-gradient(90deg, #94a3b8, #cbd5e1);
+            box-shadow: 0 0 10px rgba(148, 163, 184, 0.3);
         }
 
-        .fill-warning { background: linear-gradient(90deg, #f59e0b, #fbbf24); box-shadow: 0 0 10px rgba(245, 158, 11, 0.3); }
-        .fill-danger { background: linear-gradient(90deg, #ef4444, #f87171); box-shadow: 0 0 10px rgba(239, 68, 68, 0.3); }
+        .fill-warning {
+            background: linear-gradient(90deg, #f59e0b, #fbbf24);
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+        }
 
-        table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 10px; }
-        th { text-align: left; font-size: 0.75rem; color: var(--text-muted); padding: 0 12px 14px 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
-        td { padding: 14px 12px; font-size: 0.9rem; border-top: 1px solid rgba(255, 255, 255, 0.04); }
+        .fill-danger {
+            background: linear-gradient(90deg, #ef4444, #f87171);
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+        }
 
-        .badge { 
-            padding: 4px 10px; 
-            border-radius: 8px; 
-            font-size: 0.75rem; 
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 10px;
+        }
+
+        th {
+            text-align: left;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            padding: 0 12px 14px 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            padding: 14px 12px;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.75rem;
             font-weight: 700;
             backdrop-filter: blur(4px);
         }
-        .badge-cpu { background: rgba(59, 130, 246, 0.1); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.2); }
-        .badge-ram { background: rgba(14, 165, 233, 0.1); color: #7dd3fc; border: 1px solid rgba(14, 165, 233, 0.2); }
+
+        .badge-cpu {
+            background: rgba(139, 139, 169, 0.1);
+            color: #cbd5e1;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .badge-ram {
+            background: rgba(165, 180, 252, 0.1);
+            color: #c7d2fe;
+            border: 1px solid rgba(165, 180, 252, 0.2);
+        }
 
         footer {
-            margin-top: 80px; 
-            padding: 48px 0; 
+            margin-top: 80px;
+            padding: 48px 0;
             text-align: center;
-            color: var(--text-muted); 
-            font-size: 0.9rem; 
-            border-top: 1px solid var(--card-border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
             font-weight: 500;
         }
 
         @media (max-width: 768px) {
-            header { flex-direction: column; align-items: flex-start; gap: 20px; }
-            .header-title-group h1 { font-size: 2.2rem; }
-            body { padding: 16px; }
+            header {
+                flex-direction: column;
+                align-items: center;
+                gap: 24px;
+                text-align: center;
+                margin-bottom: 32px;
+            }
+
+            .header-title-group h1 {
+                font-size: 2.2rem;
+            }
+
+            .subtitle {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            body {
+                padding: 16px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .mode-toggle-container {
+                margin: 0 auto 32px auto;
+            }
+
+            .card {
+                padding: 24px;
+                border-radius: 24px;
+            }
+
+            .separator {
+                display: none;
+            }
         }
 
         /* Toggle Switch Styles */
@@ -237,22 +341,26 @@
             align-items: center;
             gap: 12px;
             background: rgba(255, 255, 255, 0.03);
-            padding: 8px 16px;
+            padding: 10px 20px;
             border-radius: 100px;
-            border: 1px solid var(--card-border);
-            backdrop-filter: blur(10px);
-            margin-bottom: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 40px;
             width: fit-content;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         .mode-label {
             font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            transition: color 0.3s;
+            font-weight: 700;
+            color: #4b5563;
+            /* Dimmer when inactive */
+            transition: all 0.3s ease;
+            letter-spacing: 0.05em;
         }
 
-        .mode-label.active { color: var(--accent-primary); }
+        .mode-label.active {
+            color: #ffffff;
+        }
 
         .switch {
             position: relative;
@@ -261,12 +369,19 @@
             height: 24px;
         }
 
-        .switch input { opacity: 0; width: 0; height: 0; }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
 
         .slider {
             position: absolute;
             cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background-color: rgba(255, 255, 255, 0.1);
             transition: .4s;
             border-radius: 34px;
@@ -283,324 +398,426 @@
             background-color: white;
             transition: .4s;
             border-radius: 50%;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
-        input:checked + .slider { background-color: var(--accent-primary); }
-        input:focus + .slider { box-shadow: 0 0 1px var(--accent-primary); }
-        input:checked + .slider:before { transform: translateX(20px); }
+        input:checked+.slider {
+            background-color: var(--accent-primary);
+        }
+
+        input:focus+.slider {
+            box-shadow: 0 0 1px var(--accent-primary);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(20px);
+        }
     </style>
 </head>
+
 <body>
-<div class="container">
-    <header>
-        <div class="header-title-group">
-            <h1>AntiX Monitor</h1>
-            <div class="subtitle">
-                <span id="serverTime" style="font-family: 'JetBrains Mono';">--:--:--</span>
-                <span style="opacity: 0.5">|</span>
-                <span id="serverFullTimeText">Система мониторинга реального времени</span>
+    <div class="container">
+        <header>
+            <div class="header-title-group">
+                <h1>AntiX Monitor</h1>
+                <div class="subtitle">
+                    <span id="serverTime" style="font-family: 'JetBrains Mono';">--:--:--</span>
+                    <span class="separator" style="opacity: 0.5">|</span>
+                    <span id="serverFullTimeText">Система мониторинга реального времени</span>
+                </div>
+            </div>
+            <div class="status-pill">
+                <div class="status-dot"></div>
+                <span id="statusText">Подключение...</span>
+            </div>
+        </header>
+
+        <div class="mode-toggle-container">
+            <span class="mode-label active" id="liveLabel">SERVER</span>
+            <label class="switch">
+                <input type="checkbox" id="demoToggle">
+                <span class="slider"></span>
+            </label>
+            <span class="mode-label" id="demoLabel">DEMO MODE</span>
+        </div>
+
+        <div class="grid">
+            <!-- CPU Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="16" height="16" x="4" y="4" rx="2" />
+                            <rect width="6" height="6" x="9" y="9" rx="1" />
+                            <path d="M15 2v2" />
+                            <path d="M15 20v2" />
+                            <path d="M2 15h2" />
+                            <path d="M2 9h2" />
+                            <path d="M20 15h2" />
+                            <path d="M20 9h2" />
+                            <path d="M9 2v2" />
+                            <path d="M9 20v2" />
+                        </svg>
+                    </div>
+                    <h2>Процессор</h2>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-info"><span>ЗАГРУЗКА</span><span id="cpuPercVal">0%</span></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="cpuFill"></div>
+                    </div>
+                </div>
+                <div class="stat-row"><span class="stat-label">Загрузка</span><span class="stat-value"
+                        id="cpuValue">-</span></div>
+                <div class="stat-row"><span class="stat-label">Частота</span><span class="stat-value"
+                        id="cpuFreq">-</span></div>
+                <div class="stat-row"><span class="stat-label">Ядра</span><span class="stat-value"
+                        id="cpuCores">-</span></div>
+                <div class="stat-row"><span class="stat-label">Load Avg</span><span class="stat-value"
+                        id="loadAvgFull">-</span></div>
+            </div>
+
+            <!-- Memory Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <ellipse cx="12" cy="5" rx="9" ry="3" />
+                            <path d="M3 5V19A9 3 0 0 0 21 19V5" />
+                            <path d="M3 12A9 3 0 0 0 21 12" />
+                        </svg>
+                    </div>
+                    <h2>Память</h2>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-info"><span>ИСПОЛЬЗОВАНО</span><span id="ramPercVal">0%</span></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="ramFill"></div>
+                    </div>
+                </div>
+                <div class="stat-row"><span class="stat-label">Использовано</span><span class="stat-value"
+                        id="ramUsed">-</span></div>
+                <div class="stat-row"><span class="stat-label">Всего</span><span class="stat-value"
+                        id="ramTotal">-</span></div>
+                <div class="stat-row"><span class="stat-label">Свободно</span><span class="stat-value" id="ramFree"
+                        style="color:var(--success)">-</span></div>
+            </div>
+
+            <!-- Disk Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="20" height="8" x="2" y="14" rx="2" />
+                            <path d="M2 10V6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4" />
+                            <path d="m2 10 3 4" />
+                            <path d="m22 10-3 4" />
+                            <path d="M6 18h.01" />
+                            <path d="M10 18h.01" />
+                        </svg>
+                    </div>
+                    <h2>Диск</h2>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-info"><span>ЗАПОЛНЕНО</span><span id="diskPercVal">0%</span></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="diskFill"></div>
+                    </div>
+                </div>
+                <div class="stat-row"><span class="stat-label">Использовано</span><span class="stat-value"
+                        id="diskUsed">-</span></div>
+                <div class="stat-row"><span class="stat-label">Всего</span><span class="stat-value"
+                        id="diskTotal">-</span></div>
+                <div class="stat-row"><span class="stat-label">Свободно</span><span class="stat-value" id="diskFree"
+                        style="color:var(--success)">-</span></div>
+            </div>
+
+            <!-- Network Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m21 15-4 4-4-4" />
+                            <path d="M17 5v14" />
+                            <path d="m3 9 4-4 4 4" />
+                            <path d="M7 19V5" />
+                        </svg>
+                    </div>
+                    <h2>Сеть</h2>
+                </div>
+                <div class="stat-row"><span class="stat-label">Отправлено</span><span class="stat-value" id="netSent"
+                        style="color:var(--success)">-</span></div>
+                <div class="stat-row"><span class="stat-label">Получено</span><span class="stat-value" id="netRecv"
+                        style="color:var(--accent-secondary)">-</span></div>
+                <div class="stat-row"><span class="stat-label">IP адреса</span><span class="stat-value"
+                        id="ipAddr">-</span></div>
+            </div>
+
+            <!-- System Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="20" height="14" x="2" y="3" rx="2" />
+                            <line x1="8" y1="21" x2="16" y2="21" />
+                            <line x1="12" y1="17" x2="12" y2="21" />
+                        </svg>
+                    </div>
+                    <h2>Система</h2>
+                </div>
+                <div class="stat-row"><span class="stat-label">Время</span><span class="stat-value"
+                        id="serverFullTime">-</span></div>
+                <div class="stat-row"><span class="stat-label">Аптайм</span><span class="stat-value"
+                        id="uptime">-</span></div>
+                <div class="stat-row"><span class="stat-label">Температура</span><span class="stat-value"
+                        id="temp">-</span></div>
+                <div class="stat-row"><span class="stat-label">Процессов</span><span class="stat-value"
+                        id="processes">-</span></div>
+            </div>
+
+            <!-- Top Processes Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="8" y1="6" x2="21" y2="6" />
+                            <line x1="8" y1="12" x2="21" y2="12" />
+                            <line x1="8" y1="18" x2="21" y2="18" />
+                            <line x1="3" y1="6" x2="3.01" y2="6" />
+                            <line x1="3" y1="12" x2="3.01" y2="12" />
+                            <line x1="3" y1="18" x2="3.01" y2="18" />
+                        </svg>
+                    </div>
+                    <h2>Топ процессов</h2>
+                </div>
+                <table id="procTable">
+                    <thead>
+                        <tr>
+                            <th>PID</th>
+                            <th>Название</th>
+                            <th>CPU</th>
+                            <th>RAM</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="4" style="text-align:center;color:var(--text-muted)">Загрузка...</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div class="status-pill">
-            <div class="status-dot"></div>
-            <span id="statusText">Подключение...</span>
-        </div>
-    </header>
 
-    <div class="mode-toggle-container">
-        <span class="mode-label active" id="liveLabel">SERVER</span>
-        <label class="switch">
-            <input type="checkbox" id="demoToggle">
-            <span class="slider"></span>
-        </label>
-        <span class="mode-label" id="demoLabel">DEMO MODE</span>
+        <footer>&copy; 2026 AntiX Monitor • Обновление каждые 3 сек</footer>
     </div>
 
-    <div class="grid">
-        <!-- CPU Card -->
-        <div class="card">
-            <div class="card-header">
-                <div class="icon-box">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg>
-                </div>
-                <h2>Процессор</h2>
-            </div>
-            <div class="progress-container">
-                <div class="progress-info"><span>ЗАГРУЗКА</span><span id="cpuPercVal">0%</span></div>
-                <div class="progress-bar"><div class="progress-fill" id="cpuFill"></div></div>
-            </div>
-            <div class="stat-row"><span class="stat-label">Загрузка</span><span class="stat-value" id="cpuValue">-</span></div>
-            <div class="stat-row"><span class="stat-label">Частота</span><span class="stat-value" id="cpuFreq">-</span></div>
-            <div class="stat-row"><span class="stat-label">Ядра</span><span class="stat-value" id="cpuCores">-</span></div>
-            <div class="stat-row"><span class="stat-label">Load Avg</span><span class="stat-value" id="loadAvgFull">-</span></div>
-        </div>
+    <script>
+        const API_URL = '/api/stats';
+        const PROCS_URL = '/api/processes';
+        let isDemoMode = false;
+        let demoInterval = null;
 
-        <!-- Memory Card -->
-        <div class="card">
-            <div class="card-header">
-                <div class="icon-box">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg>
-                </div>
-                <h2>Память</h2>
-            </div>
-            <div class="progress-container">
-                <div class="progress-info"><span>ИСПОЛЬЗОВАНО</span><span id="ramPercVal">0%</span></div>
-                <div class="progress-bar"><div class="progress-fill" id="ramFill"></div></div>
-            </div>
-            <div class="stat-row"><span class="stat-label">Использовано</span><span class="stat-value" id="ramUsed">-</span></div>
-            <div class="stat-row"><span class="stat-label">Всего</span><span class="stat-value" id="ramTotal">-</span></div>
-            <div class="stat-row"><span class="stat-label">Свободно</span><span class="stat-value" id="ramFree" style="color:var(--success)">-</span></div>
-        </div>
+        // Toggle logic
+        document.getElementById('demoToggle').addEventListener('change', function (e) {
+            isDemoMode = e.target.checked;
+            const liveLabel = document.getElementById('liveLabel');
+            const demoLabel = document.getElementById('demoLabel');
+            const statusText = document.getElementById('statusText');
 
-        <!-- Disk Card -->
-        <div class="card">
-            <div class="card-header">
-                <div class="icon-box">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="8" x="2" y="14" rx="2"/><path d="M2 10V6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4"/><path d="m2 10 3 4"/><path d="m22 10-3 4"/><path d="M6 18h.01"/><path d="M10 18h.01"/></svg>
-                </div>
-                <h2>Диск</h2>
-            </div>
-            <div class="progress-container">
-                <div class="progress-info"><span>ЗАПОЛНЕНО</span><span id="diskPercVal">0%</span></div>
-                <div class="progress-bar"><div class="progress-fill" id="diskFill"></div></div>
-            </div>
-            <div class="stat-row"><span class="stat-label">Использовано</span><span class="stat-value" id="diskUsed">-</span></div>
-            <div class="stat-row"><span class="stat-label">Всего</span><span class="stat-value" id="diskTotal">-</span></div>
-            <div class="stat-row"><span class="stat-label">Свободно</span><span class="stat-value" id="diskFree" style="color:var(--success)">-</span></div>
-        </div>
-
-        <!-- Network Card -->
-        <div class="card">
-            <div class="card-header">
-                <div class="icon-box">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 15-4 4-4-4"/><path d="M17 5v14"/><path d="m3 9 4-4 4 4"/><path d="M7 19V5"/></svg>
-                </div>
-                <h2>Сеть</h2>
-            </div>
-            <div class="stat-row"><span class="stat-label">Отправлено</span><span class="stat-value" id="netSent" style="color:var(--success)">-</span></div>
-            <div class="stat-row"><span class="stat-label">Получено</span><span class="stat-value" id="netRecv" style="color:var(--accent-secondary)">-</span></div>
-            <div class="stat-row"><span class="stat-label">IP адреса</span><span class="stat-value" id="ipAddr">-</span></div>
-        </div>
-
-        <!-- System Card -->
-        <div class="card">
-            <div class="card-header">
-                <div class="icon-box">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                </div>
-                <h2>Система</h2>
-            </div>
-            <div class="stat-row"><span class="stat-label">Время</span><span class="stat-value" id="serverFullTime">-</span></div>
-            <div class="stat-row"><span class="stat-label">Аптайм</span><span class="stat-value" id="uptime">-</span></div>
-            <div class="stat-row"><span class="stat-label">Температура</span><span class="stat-value" id="temp">-</span></div>
-            <div class="stat-row"><span class="stat-label">Процессов</span><span class="stat-value" id="processes">-</span></div>
-        </div>
-
-        <!-- Top Processes Card -->
-        <div class="card">
-            <div class="card-header">
-                <div class="icon-box">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-                </div>
-                <h2>Топ процессов</h2>
-            </div>
-            <table id="procTable">
-                <thead><tr><th>PID</th><th>Название</th><th>CPU</th><th>RAM</th></tr></thead>
-                <tbody><tr><td colspan="4" style="text-align:center;color:var(--text-muted)">Загрузка...</td></tr></tbody>
-            </table>
-        </div>
-    </div>
-
-    <footer>&copy; 2026 AntiX Monitor • Обновление каждые 3 сек</footer>
-</div>
-
-<script>
-    const API_URL = '/api/stats';
-    const PROCS_URL = '/api/processes';
-    let isDemoMode = false;
-    let demoInterval = null;
-
-    // Toggle logic
-    document.getElementById('demoToggle').addEventListener('change', function(e) {
-        isDemoMode = e.target.checked;
-        const liveLabel = document.getElementById('liveLabel');
-        const demoLabel = document.getElementById('demoLabel');
-        const statusText = document.getElementById('statusText');
-        
-        if (isDemoMode) {
-            liveLabel.classList.remove('active');
-            demoLabel.classList.add('active');
-            statusText.innerText = 'Демонстрационный режим';
-            statusText.parentElement.style.background = 'rgba(59, 130, 246, 0.1)';
-            statusText.parentElement.style.color = 'var(--accent-primary)';
-            statusText.parentElement.style.borderColor = 'rgba(59, 130, 246, 0.2)';
-            document.querySelector('.status-dot').style.backgroundColor = 'var(--accent-primary)';
-            document.querySelector('.status-dot').style.boxShadow = '0 0 12px var(--accent-primary)';
-            fetchStats();
-            fetchProcesses();
-        } else {
-            demoLabel.classList.remove('active');
-            liveLabel.classList.add('active');
-            statusText.innerText = 'Подключение...';
-            statusText.parentElement.style.background = 'rgba(16, 185, 129, 0.08)';
-            statusText.parentElement.style.color = 'var(--success)';
-            statusText.parentElement.style.borderColor = 'rgba(16, 185, 129, 0.15)';
-            document.querySelector('.status-dot').style.backgroundColor = 'var(--success)';
-            document.querySelector('.status-dot').style.boxShadow = '0 0 12px var(--success)';
-            clearData(); // Clear demo data immediately
-            fetchStats();
-            fetchProcesses();
-        }
-    });
-
-    function clearData() {
-        const ids = [
-            'cpuValue', 'cpuFreq', 'cpuCores', 'loadAvgFull', 'cpuPercVal',
-            'ramUsed', 'ramFree', 'ramTotal', 'ramPercVal',
-            'diskUsed', 'diskFree', 'diskTotal', 'diskPercVal',
-            'netSent', 'netRecv', 'ipAddr',
-            'serverFullTime', 'serverTime', 'uptime', 'temp', 'processes'
-        ];
-        ids.forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.innerText = '-';
+            if (isDemoMode) {
+                liveLabel.classList.remove('active');
+                demoLabel.classList.add('active');
+                statusText.innerText = 'Демонстрационный режим';
+                statusText.parentElement.style.background = 'rgba(0, 0, 0, 0.4)';
+                statusText.parentElement.style.color = '#ffffff';
+                statusText.parentElement.style.borderColor = 'rgba(255, 255, 255, 0.05)';
+                statusText.parentElement.style.backdropFilter = 'none';
+                statusText.parentElement.style.webkitBackdropFilter = 'none';
+                statusText.parentElement.style.boxShadow = 'none';
+                document.querySelector('.status-dot').style.backgroundColor = 'var(--accent-primary)';
+                document.querySelector('.status-dot').style.boxShadow = 'none';
+                document.querySelector('.status-dot').style.animation = 'none';
+                fetchStats();
+                fetchProcesses();
+            } else {
+                demoLabel.classList.remove('active');
+                liveLabel.classList.add('active');
+                statusText.innerText = 'Подключение...';
+                statusText.parentElement.style.background = 'rgba(16, 185, 129, 0.1)';
+                statusText.parentElement.style.color = '#ffffff';
+                statusText.parentElement.style.borderColor = 'rgba(16, 185, 129, 0.2)';
+                statusText.parentElement.style.backdropFilter = 'blur(4px)';
+                statusText.parentElement.style.webkitBackdropFilter = 'blur(4px)';
+                statusText.parentElement.style.boxShadow = 'var(--glass-shadow)';
+                document.querySelector('.status-dot').style.backgroundColor = 'var(--success)';
+                document.querySelector('.status-dot').style.boxShadow = '0 0 15px var(--success)';
+                document.querySelector('.status-dot').style.animation = 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite';
+                clearData(); // Clear demo data immediately
+                fetchStats();
+                fetchProcesses();
+            }
         });
-        
-        // Reset progress bars
-        ['cpuFill', 'ramFill', 'diskFill'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.style.width = '0%';
-        });
-        
-        // Reset table
-        document.querySelector('#procTable tbody').innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text-muted)">Загрузка...</td></tr>';
-    }
 
-    function generateDemoData() {
-        const now = new Date();
-        const timeStr = now.toLocaleTimeString('ru-RU');
-        const fullTimeStr = now.toLocaleString('ru-RU');
-        
-        return {
-            time: fullTimeStr,
-            cpu_percent: (Math.random() * 40 + 10).toFixed(1),
-            cpu_freq: (Math.random() * 1000 + 2500).toFixed(0) + " MHz",
-            cpu_cores: "8 / 16",
-            load_1m: (Math.random() * 2).toFixed(2),
-            load_5m: (Math.random() * 2).toFixed(2),
-            load_15m: (Math.random() * 2).toFixed(2),
-            ram_percent: (Math.random() * 30 + 40).toFixed(1),
-            ram_used: (Math.random() * 8 + 6).toFixed(1) + " GB",
-            ram_total: "32.0 GB",
-            ram_free: (Math.random() * 5 + 18).toFixed(1) + " GB",
-            disk_percent: "64.2",
-            disk_used: "598 GB",
-            disk_total: "931 GB",
-            disk_free: "333 GB",
-            net_sent: (Math.random() * 500).toFixed(1) + " KB/s",
-            net_recv: (Math.random() * 2000).toFixed(1) + " KB/s",
-            ip: "192.168.1.42 (demo)",
-            uptime: "12d 4h 23m",
-            temperature: (Math.random() * 15 + 45).toFixed(1) + "°C",
-            processes: (Math.random() * 50 + 150).toFixed(0)
-        };
-    }
-
-    function generateDemoProcesses() {
-        const names = ['python3', 'nginx', 'chrome', 'node', 'docker', 'postgres', 'systemd', 'bash', 'htop', 'redis'];
-        const procs = [];
-        for(let i=0; i<8; i++) {
-            procs.push({
-                pid: Math.floor(Math.random() * 9000 + 1000),
-                name: names[Math.floor(Math.random() * names.length)],
-                cpu_percent: (Math.random() * 15).toFixed(1),
-                memory_percent: (Math.random() * 5).toFixed(1)
+        function clearData() {
+            const ids = [
+                'cpuValue', 'cpuFreq', 'cpuCores', 'loadAvgFull', 'cpuPercVal',
+                'ramUsed', 'ramFree', 'ramTotal', 'ramPercVal',
+                'diskUsed', 'diskFree', 'diskTotal', 'diskPercVal',
+                'netSent', 'netRecv', 'ipAddr',
+                'serverFullTime', 'serverTime', 'uptime', 'temp', 'processes'
+            ];
+            ids.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.innerText = '-';
             });
+
+            // Reset progress bars
+            ['cpuFill', 'ramFill', 'diskFill'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.width = '0%';
+            });
+
+            // Reset table
+            document.querySelector('#procTable tbody').innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text-muted)">Загрузка...</td></tr>';
         }
-        return procs.sort((a, b) => b.cpu_percent - a.cpu_percent);
-    }
 
-    function updateProgress(id, labelId, percent) {
-        const el = document.getElementById(id);
-        const label = document.getElementById(labelId);
-        if (!el) return;
-        const val = Math.min(Math.max(parseFloat(percent) || 0, 0), 100);
-        el.style.width = val + '%';
-        if (label) label.innerText = val.toFixed(1) + '%';
-        el.className = 'progress-fill';
-        if (val > 85) el.classList.add('fill-danger');
-        else if (val > 60) el.classList.add('fill-warning');
-    }
+        function generateDemoData() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('ru-RU');
+            const fullTimeStr = now.toLocaleString('ru-RU');
 
-    async function fetchStats() {
-        try {
-            let d;
-            if (isDemoMode) {
-                d = generateDemoData();
-            } else {
-                const res = await fetch(API_URL);
-                d = await res.json();
-                document.getElementById('statusText').innerText = 'Система в норме';
-            }
-
-            document.getElementById('serverTime').innerText = d.time.split(' ')[1] || d.time;
-            document.getElementById('serverFullTime').innerText = d.time;
-
-            document.getElementById('cpuValue').innerText = d.cpu_percent + '%';
-            document.getElementById('cpuFreq').innerText = d.cpu_freq;
-            document.getElementById('cpuCores').innerText = d.cpu_cores;
-            document.getElementById('loadAvgFull').innerText = `${d.load_1m} / ${d.load_5m} / ${d.load_15m}`;
-            document.getElementById('temp').innerText = d.temperature;
-            updateProgress('cpuFill', 'cpuPercVal', d.cpu_percent);
-
-            document.getElementById('ramUsed').innerText = d.ram_used;
-            document.getElementById('ramFree').innerText = d.ram_free;
-            document.getElementById('ramTotal').innerText = d.ram_total;
-            updateProgress('ramFill', 'ramPercVal', d.ram_percent);
-
-            document.getElementById('diskUsed').innerText = d.disk_used;
-            document.getElementById('diskFree').innerText = d.disk_free;
-            document.getElementById('diskTotal').innerText = d.disk_total;
-            updateProgress('diskFill', 'diskPercVal', d.disk_percent);
-
-            document.getElementById('netSent').innerText = d.net_sent;
-            document.getElementById('netRecv').innerText = d.net_recv;
-            document.getElementById('ipAddr').innerText = (d.ip || '').split(' ')[0] || '-';
-
-            document.getElementById('uptime').innerText = d.uptime;
-            document.getElementById('processes').innerText = d.processes;
-        } catch(e) {
-            if (!isDemoMode) document.getElementById('statusText').innerText = 'Ошибка связи';
+            return {
+                time: fullTimeStr,
+                cpu_percent: (Math.random() * 40 + 10).toFixed(1),
+                cpu_freq: (Math.random() * 1000 + 2500).toFixed(0) + " MHz",
+                cpu_cores: "8 / 16",
+                load_1m: (Math.random() * 2).toFixed(2),
+                load_5m: (Math.random() * 2).toFixed(2),
+                load_15m: (Math.random() * 2).toFixed(2),
+                ram_percent: (Math.random() * 30 + 40).toFixed(1),
+                ram_used: (Math.random() * 8 + 6).toFixed(1) + " GB",
+                ram_total: "32.0 GB",
+                ram_free: (Math.random() * 5 + 18).toFixed(1) + " GB",
+                disk_percent: "64.2",
+                disk_used: "598 GB",
+                disk_total: "931 GB",
+                disk_free: "333 GB",
+                net_sent: (Math.random() * 500).toFixed(1) + " KB/s",
+                net_recv: (Math.random() * 2000).toFixed(1) + " KB/s",
+                ip: "192.168.1.42 (demo)",
+                uptime: "12d 4h 23m",
+                temperature: (Math.random() * 15 + 45).toFixed(1) + "°C",
+                processes: (Math.random() * 50 + 150).toFixed(0)
+            };
         }
-    }
 
-    async function fetchProcesses() {
-        try {
-            let procs;
-            if (isDemoMode) {
-                procs = generateDemoProcesses();
-            } else {
-                const res = await fetch(PROCS_URL);
-                procs = await res.json();
+        function generateDemoProcesses() {
+            const names = ['python3', 'nginx', 'chrome', 'node', 'docker', 'postgres', 'systemd', 'bash', 'htop', 'redis'];
+            const procs = [];
+            for (let i = 0; i < 3; i++) {
+                procs.push({
+                    pid: Math.floor(Math.random() * 9000 + 1000),
+                    name: names[Math.floor(Math.random() * names.length)],
+                    cpu_percent: (Math.random() * 15).toFixed(1),
+                    memory_percent: (Math.random() * 5).toFixed(1)
+                });
             }
-            
-            let html = '';
-            procs.forEach(p => {
-                html += `<tr>
+            return procs.sort((a, b) => b.cpu_percent - a.cpu_percent);
+        }
+
+        function updateProgress(id, labelId, percent) {
+            const el = document.getElementById(id);
+            const label = document.getElementById(labelId);
+            if (!el) return;
+            const val = Math.min(Math.max(parseFloat(percent) || 0, 0), 100);
+            el.style.width = val + '%';
+            if (label) label.innerText = val.toFixed(1) + '%';
+            el.className = 'progress-fill';
+            if (val > 85) el.classList.add('fill-danger');
+            else if (val > 60) el.classList.add('fill-warning');
+        }
+
+        async function fetchStats() {
+            try {
+                let d;
+                if (isDemoMode) {
+                    d = generateDemoData();
+                } else {
+                    const res = await fetch(API_URL);
+                    d = await res.json();
+                    document.getElementById('statusText').innerText = 'Система в норме';
+                }
+
+                document.getElementById('serverTime').innerText = d.time.split(' ')[1] || d.time;
+                document.getElementById('serverFullTime').innerText = d.time;
+
+                document.getElementById('cpuValue').innerText = d.cpu_percent + '%';
+                document.getElementById('cpuFreq').innerText = d.cpu_freq;
+                document.getElementById('cpuCores').innerText = d.cpu_cores;
+                document.getElementById('loadAvgFull').innerText = `${d.load_1m} / ${d.load_5m} / ${d.load_15m}`;
+                document.getElementById('temp').innerText = d.temperature;
+                updateProgress('cpuFill', 'cpuPercVal', d.cpu_percent);
+
+                document.getElementById('ramUsed').innerText = d.ram_used;
+                document.getElementById('ramFree').innerText = d.ram_free;
+                document.getElementById('ramTotal').innerText = d.ram_total;
+                updateProgress('ramFill', 'ramPercVal', d.ram_percent);
+
+                document.getElementById('diskUsed').innerText = d.disk_used;
+                document.getElementById('diskFree').innerText = d.disk_free;
+                document.getElementById('diskTotal').innerText = d.disk_total;
+                updateProgress('diskFill', 'diskPercVal', d.disk_percent);
+
+                document.getElementById('netSent').innerText = d.net_sent;
+                document.getElementById('netRecv').innerText = d.net_recv;
+                document.getElementById('ipAddr').innerText = (d.ip || '').split(' ')[0] || '-';
+
+                document.getElementById('uptime').innerText = d.uptime;
+                document.getElementById('processes').innerText = d.processes;
+            } catch (e) {
+                if (!isDemoMode) {
+                    statusText.innerText = 'Ошибка связи';
+                    statusText.parentElement.style.background = 'rgba(239, 68, 68, 0.15)';
+                    statusText.parentElement.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+                    document.querySelector('.status-dot').style.backgroundColor = 'var(--danger)';
+                    document.querySelector('.status-dot').style.boxShadow = '0 0 15px var(--danger)';
+                }
+            }
+        }
+
+        async function fetchProcesses() {
+            try {
+                let procs;
+                if (isDemoMode) {
+                    procs = generateDemoProcesses();
+                } else {
+                    const res = await fetch(PROCS_URL);
+                    procs = await res.json();
+                }
+
+                let html = '';
+                procs.forEach(p => {
+                    html += `<tr>
                     <td>${p.pid}</td>
                     <td>${(p.name || '').substring(0, 20)}</td>
                     <td><span class="badge badge-cpu">${p.cpu_percent}%</span></td>
                     <td><span class="badge badge-ram">${p.memory_percent}%</span></td>
                 </tr>`;
-            });
-            document.querySelector('#procTable tbody').innerHTML = html || '<tr><td colspan="4">Нет данных</td></tr>';
-        } catch(e) {}
-    }
+                });
+                document.querySelector('#procTable tbody').innerHTML = html || '<tr><td colspan="4">Нет данных</td></tr>';
+            } catch (e) { }
+        }
 
-    fetchStats(); fetchProcesses();
-    setInterval(fetchStats, 3000);
-    setInterval(fetchProcesses, 10000);
-</script>
+        fetchStats(); fetchProcesses();
+        setInterval(fetchStats, 3000);
+        setInterval(fetchProcesses, 10000);
+    </script>
 </body>
+
 </html>
