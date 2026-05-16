@@ -17,69 +17,80 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0b0e14;
-            --card-bg: rgba(23, 28, 38, 0.7);
-            --accent-primary: #6366f1;
-            --accent-secondary: #a855f7;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
+            --bg-color: #030712;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --accent-primary: #3b82f6;
+            --accent-secondary: #0ea5e9;
+            --accent-glow: rgba(59, 130, 246, 0.2);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
-            --border: rgba(255, 255, 255, 0.08);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-color);
-            background-image:
-                radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.08) 0%, transparent 40%);
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(59, 130, 246, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(14, 165, 233, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 1) 0%, transparent 100%);
+            background-attachment: fixed;
             min-height: 100vh;
-            padding: 20px;
+            padding: 24px;
             color: var(--text-main);
-            line-height: 1.5;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .container { max-width: 1200px; margin: 0 auto; }
+        .container { max-width: 1280px; margin: 0 auto; }
 
         header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-top: 20px;
+            text-align: left;
+            margin-bottom: 48px;
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 1px solid var(--card-border);
         }
 
-        h1 {
-            font-size: 2.5rem;
+        .header-title-group h1 {
+            font-size: 2.75rem;
             font-weight: 800;
-            letter-spacing: -0.04em;
-            background: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
+            letter-spacing: -0.05em;
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .subtitle {
             color: var(--text-muted);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
+            gap: 16px;
             font-weight: 500;
         }
 
         .status-pill {
             display: flex;
             align-items: center;
-            gap: 6px;
-            background: rgba(16, 185, 129, 0.1);
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.08);
             color: var(--success);
-            padding: 4px 12px;
-            border-radius: 99px;
-            font-size: 0.8rem;
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(16, 185, 129, 0.15);
+            backdrop-filter: blur(4px);
         }
 
         .status-dot {
@@ -87,109 +98,224 @@
             height: 8px;
             background-color: var(--success);
             border-radius: 50%;
-            box-shadow: 0 0 8px var(--success);
-            animation: pulse 2s infinite;
+            box-shadow: 0 0 12px var(--success);
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
 
         @keyframes pulse {
-            0% { transform: scale(0.95); opacity: 0.7; }
-            50% { transform: scale(1.1); opacity: 1; }
-            100% { transform: scale(0.95); opacity: 0.7; }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: .5; transform: scale(1.1); }
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 28px;
         }
 
         .card {
             background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            border-radius: 24px;
-            padding: 28px;
-            border: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 28px;
+            padding: 32px;
+            border: 1px solid var(--card-border);
+            box-shadow: var(--glass-shadow);
+            position: relative;
+            overflow: hidden;
         }
+
+
 
         .card-header {
             display: flex;
             align-items: center;
-            gap: 14px;
-            margin-bottom: 24px;
+            gap: 16px;
+            margin-bottom: 28px;
         }
 
         .icon-box {
-            width: 42px;
-            height: 42px;
+            width: 48px;
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(99, 102, 241, 0.1);
-            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(14, 165, 233, 0.1));
+            border-radius: 16px;
             color: var(--accent-primary);
+            border: 1px solid rgba(59, 130, 246, 0.2);
         }
 
-        .card h2 { font-size: 1.25rem; font-weight: 700; }
+        .card h2 { 
+            font-size: 1.35rem; 
+            font-weight: 700; 
+            letter-spacing: -0.02em;
+            color: var(--text-main);
+        }
 
         .stat-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
         }
 
         .stat-row:last-child { border-bottom: none; }
-        .stat-label { color: var(--text-muted); font-size: 0.9rem; }
-        .stat-value { font-weight: 600; font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; text-align: right; }
+        .stat-label { color: var(--text-muted); font-size: 0.95rem; font-weight: 500; }
+        .stat-value { 
+            font-weight: 600; 
+            font-family: 'JetBrains Mono', monospace; 
+            font-size: 1rem; 
+            text-align: right;
+            color: #fff;
+        }
 
-        .progress-container { margin: 16px 0 8px 0; }
+        .progress-container { margin: 20px 0 12px 0; }
         .progress-info {
             display: flex;
             justify-content: space-between;
-            font-size: 0.75rem;
-            margin-bottom: 6px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
             color: var(--text-muted);
-            font-weight: 600;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .progress-bar {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 99px; height: 8px; overflow: hidden;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 100px; 
+            height: 10px; 
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .progress-fill {
             height: 100%; width: 0%;
-            transition: width 1s ease-in-out;
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            transition: width 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
         }
 
-        .fill-warning { background: var(--warning); }
-        .fill-danger { background: var(--danger); }
+        .fill-warning { background: linear-gradient(90deg, #f59e0b, #fbbf24); box-shadow: 0 0 10px rgba(245, 158, 11, 0.3); }
+        .fill-danger { background: linear-gradient(90deg, #ef4444, #f87171); box-shadow: 0 0 10px rgba(239, 68, 68, 0.3); }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th { text-align: left; font-size: 0.75rem; color: var(--text-muted); padding: 0 8px 10px 8px; }
-        td { padding: 10px 8px; font-size: 0.85rem; border-top: 1px solid rgba(255, 255, 255, 0.03); }
+        table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 10px; }
+        th { text-align: left; font-size: 0.75rem; color: var(--text-muted); padding: 0 12px 14px 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+        td { padding: 14px 12px; font-size: 0.9rem; border-top: 1px solid rgba(255, 255, 255, 0.04); }
 
-        .badge { padding: 3px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; }
-        .badge-cpu { background: rgba(99, 102, 241, 0.1); color: #818cf8; }
-        .badge-ram { background: rgba(168, 85, 247, 0.1); color: #c084fc; }
+        .badge { 
+            padding: 4px 10px; 
+            border-radius: 8px; 
+            font-size: 0.75rem; 
+            font-weight: 700;
+            backdrop-filter: blur(4px);
+        }
+        .badge-cpu { background: rgba(59, 130, 246, 0.1); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.2); }
+        .badge-ram { background: rgba(14, 165, 233, 0.1); color: #7dd3fc; border: 1px solid rgba(14, 165, 233, 0.2); }
 
         footer {
-            margin-top: 60px; padding: 40px 0; text-align: center;
-            color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border);
+            margin-top: 80px; 
+            padding: 48px 0; 
+            text-align: center;
+            color: var(--text-muted); 
+            font-size: 0.9rem; 
+            border-top: 1px solid var(--card-border);
+            font-weight: 500;
         }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; align-items: flex-start; gap: 20px; }
+            .header-title-group h1 { font-size: 2.2rem; }
+            body { padding: 16px; }
+        }
+
+        /* Toggle Switch Styles */
+        .mode-toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 8px 16px;
+            border-radius: 100px;
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+            margin-bottom: 32px;
+            width: fit-content;
+        }
+
+        .mode-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            transition: color 0.3s;
+        }
+
+        .mode-label.active { color: var(--accent-primary); }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .switch input { opacity: 0; width: 0; height: 0; }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: .4s;
+            border-radius: 34px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        input:checked + .slider { background-color: var(--accent-primary); }
+        input:focus + .slider { box-shadow: 0 0 1px var(--accent-primary); }
+        input:checked + .slider:before { transform: translateX(20px); }
     </style>
 </head>
 <body>
 <div class="container">
     <header>
-        <h1>AntiX Monitor</h1>
-        <div class="subtitle">
-            <div class="status-pill"><div class="status-dot"></div><span id="statusText">Подключение...</span></div>
-            <span id="serverTime" style="font-family: 'JetBrains Mono';">--:--:--</span>
+        <div class="header-title-group">
+            <h1>AntiX Monitor</h1>
+            <div class="subtitle">
+                <span id="serverTime" style="font-family: 'JetBrains Mono';">--:--:--</span>
+                <span style="opacity: 0.5">|</span>
+                <span id="serverFullTimeText">Система мониторинга реального времени</span>
+            </div>
+        </div>
+        <div class="status-pill">
+            <div class="status-dot"></div>
+            <span id="statusText">Подключение...</span>
         </div>
     </header>
+
+    <div class="mode-toggle-container">
+        <span class="mode-label active" id="liveLabel">SERVER</span>
+        <label class="switch">
+            <input type="checkbox" id="demoToggle">
+            <span class="slider"></span>
+        </label>
+        <span class="mode-label" id="demoLabel">DEMO MODE</span>
+    </div>
 
     <div class="grid">
         <!-- CPU Card -->
@@ -292,6 +418,108 @@
 <script>
     const API_URL = '/api/stats';
     const PROCS_URL = '/api/processes';
+    let isDemoMode = false;
+    let demoInterval = null;
+
+    // Toggle logic
+    document.getElementById('demoToggle').addEventListener('change', function(e) {
+        isDemoMode = e.target.checked;
+        const liveLabel = document.getElementById('liveLabel');
+        const demoLabel = document.getElementById('demoLabel');
+        const statusText = document.getElementById('statusText');
+        
+        if (isDemoMode) {
+            liveLabel.classList.remove('active');
+            demoLabel.classList.add('active');
+            statusText.innerText = 'Демонстрационный режим';
+            statusText.parentElement.style.background = 'rgba(59, 130, 246, 0.1)';
+            statusText.parentElement.style.color = 'var(--accent-primary)';
+            statusText.parentElement.style.borderColor = 'rgba(59, 130, 246, 0.2)';
+            document.querySelector('.status-dot').style.backgroundColor = 'var(--accent-primary)';
+            document.querySelector('.status-dot').style.boxShadow = '0 0 12px var(--accent-primary)';
+            fetchStats();
+            fetchProcesses();
+        } else {
+            demoLabel.classList.remove('active');
+            liveLabel.classList.add('active');
+            statusText.innerText = 'Подключение...';
+            statusText.parentElement.style.background = 'rgba(16, 185, 129, 0.08)';
+            statusText.parentElement.style.color = 'var(--success)';
+            statusText.parentElement.style.borderColor = 'rgba(16, 185, 129, 0.15)';
+            document.querySelector('.status-dot').style.backgroundColor = 'var(--success)';
+            document.querySelector('.status-dot').style.boxShadow = '0 0 12px var(--success)';
+            clearData(); // Clear demo data immediately
+            fetchStats();
+            fetchProcesses();
+        }
+    });
+
+    function clearData() {
+        const ids = [
+            'cpuValue', 'cpuFreq', 'cpuCores', 'loadAvgFull', 'cpuPercVal',
+            'ramUsed', 'ramFree', 'ramTotal', 'ramPercVal',
+            'diskUsed', 'diskFree', 'diskTotal', 'diskPercVal',
+            'netSent', 'netRecv', 'ipAddr',
+            'serverFullTime', 'serverTime', 'uptime', 'temp', 'processes'
+        ];
+        ids.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.innerText = '-';
+        });
+        
+        // Reset progress bars
+        ['cpuFill', 'ramFill', 'diskFill'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.width = '0%';
+        });
+        
+        // Reset table
+        document.querySelector('#procTable tbody').innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text-muted)">Загрузка...</td></tr>';
+    }
+
+    function generateDemoData() {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('ru-RU');
+        const fullTimeStr = now.toLocaleString('ru-RU');
+        
+        return {
+            time: fullTimeStr,
+            cpu_percent: (Math.random() * 40 + 10).toFixed(1),
+            cpu_freq: (Math.random() * 1000 + 2500).toFixed(0) + " MHz",
+            cpu_cores: "8 / 16",
+            load_1m: (Math.random() * 2).toFixed(2),
+            load_5m: (Math.random() * 2).toFixed(2),
+            load_15m: (Math.random() * 2).toFixed(2),
+            ram_percent: (Math.random() * 30 + 40).toFixed(1),
+            ram_used: (Math.random() * 8 + 6).toFixed(1) + " GB",
+            ram_total: "32.0 GB",
+            ram_free: (Math.random() * 5 + 18).toFixed(1) + " GB",
+            disk_percent: "64.2",
+            disk_used: "598 GB",
+            disk_total: "931 GB",
+            disk_free: "333 GB",
+            net_sent: (Math.random() * 500).toFixed(1) + " KB/s",
+            net_recv: (Math.random() * 2000).toFixed(1) + " KB/s",
+            ip: "192.168.1.42 (demo)",
+            uptime: "12d 4h 23m",
+            temperature: (Math.random() * 15 + 45).toFixed(1) + "°C",
+            processes: (Math.random() * 50 + 150).toFixed(0)
+        };
+    }
+
+    function generateDemoProcesses() {
+        const names = ['python3', 'nginx', 'chrome', 'node', 'docker', 'postgres', 'systemd', 'bash', 'htop', 'redis'];
+        const procs = [];
+        for(let i=0; i<8; i++) {
+            procs.push({
+                pid: Math.floor(Math.random() * 9000 + 1000),
+                name: names[Math.floor(Math.random() * names.length)],
+                cpu_percent: (Math.random() * 15).toFixed(1),
+                memory_percent: (Math.random() * 5).toFixed(1)
+            });
+        }
+        return procs.sort((a, b) => b.cpu_percent - a.cpu_percent);
+    }
 
     function updateProgress(id, labelId, percent) {
         const el = document.getElementById(id);
@@ -307,10 +535,16 @@
 
     async function fetchStats() {
         try {
-            const res = await fetch(API_URL);
-            const d = await res.json();
-            document.getElementById('statusText').innerText = 'Система в норме';
-            document.getElementById('serverTime').innerText = d.time.split(' ')[1];
+            let d;
+            if (isDemoMode) {
+                d = generateDemoData();
+            } else {
+                const res = await fetch(API_URL);
+                d = await res.json();
+                document.getElementById('statusText').innerText = 'Система в норме';
+            }
+
+            document.getElementById('serverTime').innerText = d.time.split(' ')[1] || d.time;
             document.getElementById('serverFullTime').innerText = d.time;
 
             document.getElementById('cpuValue').innerText = d.cpu_percent + '%';
@@ -332,19 +566,25 @@
 
             document.getElementById('netSent').innerText = d.net_sent;
             document.getElementById('netRecv').innerText = d.net_recv;
-            document.getElementById('ipAddr').innerText = d.ip.split(' ')[0] || '-';
+            document.getElementById('ipAddr').innerText = (d.ip || '').split(' ')[0] || '-';
 
             document.getElementById('uptime').innerText = d.uptime;
             document.getElementById('processes').innerText = d.processes;
         } catch(e) {
-            document.getElementById('statusText').innerText = 'Ошибка связи';
+            if (!isDemoMode) document.getElementById('statusText').innerText = 'Ошибка связи';
         }
     }
 
     async function fetchProcesses() {
         try {
-            const res = await fetch(PROCS_URL);
-            const procs = await res.json();
+            let procs;
+            if (isDemoMode) {
+                procs = generateDemoProcesses();
+            } else {
+                const res = await fetch(PROCS_URL);
+                procs = await res.json();
+            }
+            
             let html = '';
             procs.forEach(p => {
                 html += `<tr>
